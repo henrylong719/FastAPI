@@ -1,3 +1,3 @@
 # FastAPI
 
-# Simple CRUD API for studying FastAPI
+Simple CRUD API for studying FastAPI
