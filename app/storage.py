@@ -1,29 +1,18 @@
-from pathlib import Path
-
 import json
 
-DATA_DIR = Path("data")
-DATA_FILE = DATA_DIR / "issues.json"
+from app.config import settings
+
+DATA_FILE = settings.data_dir / "issues.json"
+
 
 def load_data() -> list[dict]:
     if DATA_FILE.exists():
-        with open(DATA_FILE, "r") as f:
-            content = f.read()
-            if content.strip():
-                return json.loads(content)
-        return []
+        content = DATA_FILE.read_text()
+        if content.strip():
+            return json.loads(content)
     return []
-    
-def save_data(data: list[dict]):
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    with open(DATA_FILE, "w") as f:
-        json.dump(data, f, indent=2)
-        f.write("\n")
-        
-        
-        
-        
 
 
-
-
+def save_data(data: list[dict]) -> None:
+    settings.data_dir.mkdir(parents=True, exist_ok=True)
+    DATA_FILE.write_text(json.dumps(data, indent=2) + "\n")
